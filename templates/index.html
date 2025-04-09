@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        select, input[type="submit"] {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .video-call {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+        }
+        .video-call a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .video-call a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Disease Predictor using Machine Learning</h1>
+    <form method="POST">
+        {% for i in range(1,6) %}
+            <label for="symptom{{ i }}">Symptom {{ i }}:</label>
+            <select name="symptom{{ i }}" id="symptom{{ i }}">
+                <option value="">Select a symptom</option>
+                {% for symptom in symptoms %}
+                    <option value="{{ symptom }}">{{ symptom }}</option>
+                {% endfor %}
+            </select><br>
+        {% endfor %}
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if predictions %}
+        <h2>Predictions:</h2>
+        <p><strong>Decision Tree:</strong> {{ predictions.decision_tree }}</p>
+
+        <div class="video-call">
+            <h3>Consult a Doctor via Video Call</h3>
+            <p>If you want to speak with a medical professional, join the live consultation:</p>
+            <a href="https://meet.google.com/jnk-hgdk-pok" target="_blank">Join Video Call</a>
+        </div>
+    {% endif %}
+</body>
+</html>

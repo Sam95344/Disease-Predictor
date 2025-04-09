@@ -1,0 +1,160 @@
+/* Base Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(145deg, #dfe9f3, #ffffff);
+    color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Typography */
+h1 {
+    font-size: 38px;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    background: linear-gradient(to right, #5c6bc0, #1e88e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    animation: slideDown 0.8s ease;
+}
+
+/* Form Container */
+form {
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease;
+}
+
+/* Form Labels */
+label {
+    display: block;
+    margin-top: 18px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #34495e;
+}
+
+/* Select Dropdowns */
+select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background: #f0f4f8;
+    box-shadow: inset 3px 3px 6px #d1d9e6, inset -3px -3px 6px #ffffff;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+}
+
+/* Submit Button */
+input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(to right, #42a5f5, #1e88e5);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(to right, #1e88e5, #1565c0);
+    transform: scale(1.03);
+}
+
+/* Prediction Text */
+h2 {
+    text-align: center;
+    color: #2ecc71;
+    margin-top: 40px;
+    font-size: 24px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    color: #2d3436;
+}
+
+/* Video Call Card */
+.video-call {
+    max-width: 600px;
+    width: 90%;
+    margin: 40px auto 80px;
+    padding: 30px;
+    background: rgba(240, 255, 250, 0.9);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    box-shadow: 8px 8px 18px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.video-call h3 {
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #2e7d32;
+}
+
+.video-call a {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 30px;
+    background: linear-gradient(to right, #43a047, #2e7d32);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.video-call a:hover {
+    background: linear-gradient(to right, #2e7d32, #1b5e20);
+    transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    form, .video-call {
+        padding: 25px;
+    }
+}
