@@ -1,63 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disease Predictor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        select, input[type="submit"] {
-            margin: 10px 0;
-            padding: 5px;
-        }
-        .video-call {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            background-color: #f2f2f2;
-            border-radius: 8px;
-        }
-        .video-call a {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .video-call a:hover {
-            background-color: #218838;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Disease Predictor — Smart</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  <!-- Micro JS for small interactive effects -->
+  <script>
+    // Small tilt on mousemove for cards
+    document.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.tilt');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width/2);
+        const dy = e.clientY - (rect.top + rect.height/2);
+        card.style.transform = `perspective(900px) rotateX(${(-dy/rect.height)*6}deg) rotateY(${(dx/rect.width)*6}deg) translateZ(6px)`;
+      });
+    });
+    document.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.tilt').forEach(c=> c.style.transform = '');
+    });
+
+    // Button ripple effect
+    function ripple(e){
+      const btn = e.currentTarget;
+      const circle = document.createElement('span');
+      circle.className = 'ripple';
+      btn.appendChild(circle);
+      const d = Math.max(btn.clientWidth, btn.clientHeight);
+      circle.style.width = circle.style.height = d + 'px';
+      const rect = btn.getBoundingClientRect();
+      circle.style.left = (e.clientX - rect.left - d/2) + 'px';
+      circle.style.top = (e.clientY - rect.top - d/2) + 'px';
+      setTimeout(()=> circle.remove(), 600);
+    }
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.btn-primary').forEach(b => b.addEventListener('click', ripple));
+    });
+  </script>
 </head>
 <body>
-    <h1>Disease Predictor using Machine Learning</h1>
-    <form method="POST">
-        {% for i in range(1,6) %}
-            <label for="symptom{{ i }}">Symptom {{ i }}:</label>
-            <select name="symptom{{ i }}" id="symptom{{ i }}">
+  <div class="app-bg">
+    <!-- animated gradient and soft shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <main class="wrap">
+    <header class="hero tilt">
+      <div>
+        <h1>Disease Predictor</h1>
+        <p class="lead">Choose up to 5 symptoms — get a quick ML suggestion. For certainty, consult a professional.</p>
+      </div>
+      <div class="sparkles" aria-hidden="true"></div>
+    </header>
+
+    <section class="content">
+      <form method="POST" class="card form-card tilt" aria-label="Disease prediction form">
+        <div class="form-grid">
+          {% for i in range(1,6) %}
+          <div class="field">
+            <label for="symptom{{ i }}">
+              <svg class="label-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path fill="currentColor" d="M12 2C8 2 5 5 5 9c0 4 7 11 7 11s7-7 7-11c0-4-3-7-7-7zM12 11.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+              Symptom {{ i }}
+            </label>
+            <div class="select-wrap">
+              <select name="symptom{{ i }}" id="symptom{{ i }}" class="fancy-select">
                 <option value="">Select a symptom</option>
                 {% for symptom in symptoms %}
-                    <option value="{{ symptom }}">{{ symptom }}</option>
+                  <option value="{{ symptom }}">{{ symptom }}</option>
                 {% endfor %}
-            </select><br>
-        {% endfor %}
-        <input type="submit" value="Predict">
-    </form>
+              </select>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
 
-    {% if predictions %}
-        <h2>Predictions:</h2>
-        <p><strong>Decision Tree:</strong> {{ predictions.decision_tree }}</p>
+        <div class="actions">
+          <button type="submit" class="btn-primary" aria-label="Predict">🔍 Predict</button>
+        </div>
+      </form>
+
+      {% if predictions %}
+      <aside class="card result-card tilt" role="status" aria-live="polite">
+        <div class="result-top">
+          <div class="badge">Decision Tree</div>
+          <h2 class="result-title">Likely: <span class="muted">{{ predictions.decision_tree }}</span></h2>
+        </div>
+
+        <p class="result-detail">This is a machine-learning based suggestion. If symptoms are severe, seek immediate medical attention.</p>
 
         <div class="video-call">
-            <h3>Consult a Doctor via Video Call</h3>
-            <p>If you want to speak with a medical professional, join the live consultation:</p>
-            <a href="https://meet.google.com/jnk-hgdk-pok" target="_blank">Join Video Call</a>
+          <div class="vc-left">
+            <h3>Consult a Doctor</h3>
+            <p class="small">Join a live video consultation now for quick guidance.</p>
+          </div>
+          <div class="vc-right">
+            <a class="btn-call" href="https://meet.google.com/jnk-hgdk-pok" target="_blank" rel="noopener noreferrer">
+              ▶ Join Call
+              <span class="pulse" aria-hidden="true"></span>
+            </a>
+          </div>
         </div>
-    {% endif %}
+      </aside>
+      {% endif %}
+    </section>
+
+    <footer class="footer">Results are indicative only — always consult a licensed medical professional.</footer>
+  </main>
 </body>
 </html>
